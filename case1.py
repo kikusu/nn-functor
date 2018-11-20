@@ -140,16 +140,6 @@ if __name__ == '__main__':
     random.seed(0)
 
     def f(src):
-        if numpy.array_equal(src, numpy.array([0, 0])):
-            return numpy.array([1])
-        elif numpy.array_equal(src, numpy.array([1, 0])):
-            return numpy.array([1])
-        elif numpy.array_equal(src, numpy.array([0, 1])):
-            return numpy.array([0])
-        elif numpy.array_equal(src, numpy.array([1, 1])):
-            return numpy.array([0])
-
-    def f(src):
         return src[0] * src[1]
 
 

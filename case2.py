@@ -196,19 +196,12 @@ class L2Node(nn_functor.functions.Node):
 
 if __name__ == '__main__':
     random.seed(0)
-    def f(src):
-        if numpy.array_equal(src, numpy.array([0, 0])):
-            return numpy.array([0])
-        elif numpy.array_equal(src, numpy.array([1, 0])):
-            return numpy.array([1])
-        elif numpy.array_equal(src, numpy.array([0, 1])):
-            return numpy.array([0])
-        elif numpy.array_equal(src, numpy.array([1, 1])):
-            return numpy.array([1])
 
+    def f(src):
+        return src[0] * src[1]
 
     xy = [numpy.array(i) for i in
-          itertools.product(numpy.arange(0, 2), numpy.arange(0, 2))]
+          itertools.product(numpy.arange(0, 1, 0.01), numpy.arange(0, 1, 0.01))]
 
     l1 = L1Node(0.01)
     l2 = L2Node(0.01)
