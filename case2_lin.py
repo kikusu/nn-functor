@@ -178,8 +178,8 @@ class L2Para(nn_functor.functions.Learn):
 
         return numpy.array(
             [
-                a[0] - (i[0] - b[0]) * beta[0] * w00[0],
-                a[1] - (i[0] - b[0]) * beta[0] * w10[0]
+                a[0] - (i[0] - b[0]) * beta * w00[0],
+                a[1] - (i[0] - b[0]) * beta * w10[0]
             ]
         ).reshape(2),
 
@@ -199,10 +199,10 @@ class L2Node(nn_functor.functions.Node):
 
 if __name__ == '__main__':
     random.seed(0)
+    numpy.random.seed(0)
 
     def f(src):
-        return src[0] * src[1]
-
+        return sigmoid(src[0] * 2 + src[1] + 1) * 3 + sigmoid(src[0] * -1 + 2) + 3
     xy = [numpy.array(i) for i in
           itertools.product(numpy.arange(0, 1, 0.01), numpy.arange(0, 1, 0.01))]
 

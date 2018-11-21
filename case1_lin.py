@@ -131,12 +131,12 @@ class L1Node(nn_functor.functions.Node):
 
 
 if __name__ == '__main__':
-    # random.seed(0)
-    # numpy.random.seed(0)
+    random.seed(0)
+    numpy.random.seed(0)
 
 
     def f(src):
-        return src[0] * src[1]
+        return sigmoid(src[0] * 2 + src[1] + 1) * 3 + sigmoid(src[0] * -1 + 2) + 3
 
 
     xy = [numpy.array(i) for i in
@@ -161,12 +161,12 @@ if __name__ == '__main__':
             err_f.update_chain()
 
             err_hist.append(err.data)
-            count += 1
             if count % report == 0:
                 print(
                     f"i:{count}\tsrc:{var_src}\ttrue:{var_dst}\tpred:{v}, "
                     f"max_err:{max(err_hist)}, mean_err:{sum(err_hist) / report}")
                 err_hist = []
+            count += 1
         #     break
         # break
 
