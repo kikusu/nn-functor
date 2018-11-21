@@ -1,7 +1,8 @@
 import numpy
-import collections.abc
+
 
 class Var(object):
+    """NodeとNodeの結合を保持するもの"""
 
     def __init__(self, data, origin=None, has_link_info=True):
         """
@@ -10,6 +11,7 @@ class Var(object):
         ----------
         data: numpy.array
         origin: nn_functor.para.Node
+            Var生成元
         has_link_info: bool
             接続情報を保持するかどうか
         """
@@ -17,7 +19,7 @@ class Var(object):
         if not self.data.shape:
             self.data = self.data.reshape(1)
 
-        self._parent = None
+        self._origin = None
         self._destinations = []
         self._has_link_info = has_link_info
 
@@ -33,7 +35,7 @@ class Var(object):
 
         if not v:
             self._destinations = []
-            self._parent = None
+            self._origin = None
 
     @property
     def origin(self):
@@ -43,7 +45,7 @@ class Var(object):
         -------
         {None, nn_functor.para.ParaNode}
         """
-        return self._parent
+        return self._origin
 
     @origin.setter
     def origin(self, node):
@@ -54,10 +56,10 @@ class Var(object):
         node: nn_functor.para.Node
         """
         if self.has_link_info:
-            self._parent = node
+            self._origin = node
 
     def destinations(self):
-        """
+        """このVarの利用先一覧
 
         Returns
         -------
@@ -66,7 +68,7 @@ class Var(object):
         return self._destinations
 
     def add_destination(self, node):
-        """
+        """このVarの利用先を登録する
 
         Parameters
         ----------

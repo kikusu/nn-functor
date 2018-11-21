@@ -5,7 +5,7 @@ from nn_functor.functions import ab, node
 
 
 def sigmoid(x):
-    """
+    """sigmoid関数
 
     Parameters
     ----------
@@ -19,7 +19,7 @@ def sigmoid(x):
 
 
 def sigmoid_derivative(x):
-    """
+    """sigmoid関数の導関数
 
     Parameters
     ----------
@@ -34,8 +34,7 @@ def sigmoid_derivative(x):
 
 
 class SigmoidFunction(ab.Para):
-    def __init__(self):
-        super().__init__(None)
+    """p.15"""
 
     def implement(self, a, p=None):
         del p
@@ -47,8 +46,7 @@ class SigmoidFunction(ab.Para):
         raise error.NoUpdate()
 
     def request(self, a, b, p=None):
-        x = a[0]
-        return x - (sigmoid(x) - b) * sigmoid_derivative(x),
+        return a[0] - (self.implement(a) - b) * sigmoid_derivative(a[0]),
 
 
 class SigmoidNode(node.Node):

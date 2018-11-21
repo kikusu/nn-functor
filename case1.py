@@ -1,3 +1,6 @@
+"""
+p.17-18
+"""
 import itertools
 import random
 

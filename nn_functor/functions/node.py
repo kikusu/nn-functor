@@ -4,6 +4,7 @@ from nn_functor import error, var
 
 
 class Node(object):
+    """Paraの入出力情報をキャッシュしたりVarの連結情報生成する"""
 
     def __init__(self, para_func):
         """init
@@ -14,6 +15,7 @@ class Node(object):
         """
         self.para_func = para_func
 
+        # パラメータ変数名
         self.param_name = []
 
         self._a: typing.Tuple[var.Var] = None
@@ -24,7 +26,7 @@ class Node(object):
 
     @property
     def params(self):
-        """
+        """パラメータのタプルを返す
 
         Returns
         -------
@@ -34,6 +36,12 @@ class Node(object):
 
     @params.setter
     def params(self, ps):
+        """パラメータを更新する
+
+        Parameters
+        ----------
+        ps : tuple[numpy.array]
+        """
         for name, p in zip(self.param_name, ps):
             setattr(self, name, p)
 
