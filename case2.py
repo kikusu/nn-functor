@@ -9,7 +9,7 @@ import numpy.random
 
 import nn_functor.functions
 import nn_functor.functions.error
-import nn_functor.functions.sigmoid
+from nn_functor.functions.sigmoid import sigmoid, sigmoid_derivative
 import nn_functor.var
 
 
@@ -30,8 +30,8 @@ class L1Para(nn_functor.functions.Learn):
         w00, w01, w10, b0, b1 = p
 
         return numpy.array([
-            nn_functor.functions.sigmoid.sigmoid(w00 * a[0] + w10 * a[1] + b0),
-            nn_functor.functions.sigmoid.sigmoid(w01 * a[0] + b1)
+            sigmoid(w00 * a[0] + w10 * a[1] + b0),
+            sigmoid(w01 * a[0] + b1)
         ]).reshape(2)
 
     def update(self, a, b, p):
@@ -53,8 +53,8 @@ class L1Para(nn_functor.functions.Learn):
         w00, w01, w10, b0, b1 = p
 
         beta = [
-            nn_functor.functions.sigmoid.sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
-            nn_functor.functions.sigmoid.sigmoid_derivative(w01 * a[0] + b1)
+            sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
+            sigmoid_derivative(w01 * a[0] + b1)
         ]
 
         return (
@@ -84,8 +84,8 @@ class L1Para(nn_functor.functions.Learn):
         w00, w01, w10, b0, b1 = p
 
         beta = [
-            nn_functor.functions.sigmoid.sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
-            nn_functor.functions.sigmoid.sigmoid_derivative(w01 * a[0] + b1)
+            sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
+            sigmoid_derivative(w01 * a[0] + b1)
         ]
 
         return numpy.array([
@@ -126,7 +126,7 @@ class L2Para(nn_functor.functions.Learn):
         w00, w10, b0 = p
 
         return numpy.array([
-            nn_functor.functions.sigmoid.sigmoid(w00 * a[0] + w10 * a[1] + b0),
+            sigmoid(w00 * a[0] + w10 * a[1] + b0),
         ]).reshape(1)
 
     def update(self, a, b, p):
@@ -148,7 +148,7 @@ class L2Para(nn_functor.functions.Learn):
         w00, w10, b0 = p
 
         beta = [
-            nn_functor.functions.sigmoid.sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
+            sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
         ]
 
         return (
@@ -174,7 +174,7 @@ class L2Para(nn_functor.functions.Learn):
 
         w00, w10, b0 = p
         a = a[0]
-        beta = nn_functor.functions.sigmoid.sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0)
+        beta = sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0)
 
         return numpy.array(
             [

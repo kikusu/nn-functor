@@ -9,7 +9,7 @@ import numpy.random
 
 import nn_functor.functions
 import nn_functor.functions.error
-import nn_functor.functions.sigmoid
+from nn_functor.functions.sigmoid import sigmoid_derivative, sigmoid
 import nn_functor.var
 
 
@@ -30,14 +30,10 @@ class L1Para(nn_functor.functions.Learn):
         p00, p01, p10, b00, b01, q0, q1, b1 = p
 
         return numpy.array([
-            nn_functor.functions.sigmoid.sigmoid(
-                nn_functor.functions.sigmoid.sigmoid(
-                    q0 * nn_functor.functions.sigmoid.sigmoid(p00 * a[0] + p10 * a[1] + b00)
-                )
-                + nn_functor.functions.sigmoid.sigmoid(
-                    q1 * nn_functor.functions.sigmoid.sigmoid(p01 * a[0] + b01)
-                ) + b1
-            )
+            sigmoid(
+                q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
+                + q1 * sigmoid(p01 * a[0] + b01)
+                + b1)
         ]).reshape(1)
 
     def update(self, a, b, p):
@@ -59,16 +55,13 @@ class L1Para(nn_functor.functions.Learn):
         p00, p01, p10, b00, b01, q0, q1, b1 = p
 
         beta = [
-            nn_functor.functions.sigmoid.sigmoid_derivative(p00 * a[0] + p10 * a[1] + b00),
-            nn_functor.functions.sigmoid.sigmoid_derivative(p01 * a[0] + b01)
+            sigmoid_derivative(p00 * a[0] + p10 * a[1] + b00),
+            sigmoid_derivative(p01 * a[0] + b01)
         ]
-        gamma = nn_functor.functions.sigmoid.sigmoid_derivative(
-            nn_functor.functions.sigmoid.sigmoid(
-                q0 * nn_functor.functions.sigmoid.sigmoid(p00 * a[0] + p10 * a[1] + b00)
-            )
-            + nn_functor.functions.sigmoid.sigmoid(
-                q1 * nn_functor.functions.sigmoid.sigmoid(p01 * a[0] + b01)
-            ) + b1
+        gamma = sigmoid_derivative(
+            q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
+            + q1 * sigmoid(p01 * a[0] + b01)
+            + b1
         )
 
         return (
@@ -101,17 +94,14 @@ class L1Para(nn_functor.functions.Learn):
         p00, p01, p10, b00, b01, q0, q1, b1 = p
 
         beta = [
-            nn_functor.functions.sigmoid.sigmoid_derivative(p00 * a[0] + p10 * a[1] + b00),
-            nn_functor.functions.sigmoid.sigmoid_derivative(p01 * a[0] + b01)
+            sigmoid_derivative(p00 * a[0] + p10 * a[1] + b00),
+            sigmoid_derivative(p01 * a[0] + b01)
         ]
 
-        gamma = nn_functor.functions.sigmoid.sigmoid_derivative(
-            nn_functor.functions.sigmoid.sigmoid(
-                q0 * nn_functor.functions.sigmoid.sigmoid(p00 * a[0] + p10 * a[1] + b00)
-            )
-            + nn_functor.functions.sigmoid.sigmoid(
-                q1 * nn_functor.functions.sigmoid.sigmoid(p01 * a[0] + b01)
-            ) + b1
+        gamma = sigmoid_derivative(
+            q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
+            + q1 * sigmoid(p01 * a[0] + b01)
+            + b1
         )
 
         return numpy.array([
@@ -141,6 +131,7 @@ class L1Node(nn_functor.functions.Node):
 
 if __name__ == '__main__':
     random.seed(0)
+
 
     def f(src):
         return src[0] * src[1]
