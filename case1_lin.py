@@ -30,10 +30,9 @@ class L1Para(nn_functor.functions.Learn):
         p00, p01, p10, b00, b01, q0, q1, b1 = p
 
         return numpy.array([
-            sigmoid(
                 q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
                 + q1 * sigmoid(p01 * a[0] + b01)
-                + b1)
+                + b1
         ]).reshape(1)
 
     def update(self, a, b, p):
@@ -68,11 +67,7 @@ class L1Para(nn_functor.functions.Learn):
             sigmoid_derivative(beta[1])
         ]
 
-        gamma = sigmoid_derivative(
-            q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
-            + q1 * sigmoid(p01 * a[0] + b01)
-            + b1
-        )
+        gamma = 1
 
         return (
             p00 - self.eps * (i - b) * gamma * q0 * beta_sigma_derivative[0] * a[0],
@@ -108,11 +103,7 @@ class L1Para(nn_functor.functions.Learn):
             sigmoid_derivative(p01 * a[0] + b01)
         ]
 
-        gamma = sigmoid_derivative(
-            q0 * sigmoid(p00 * a[0] + p10 * a[1] + b00)
-            + q1 * sigmoid(p01 * a[0] + b01)
-            + b1
-        )
+        gamma = 1
 
         return numpy.array([
             a[0] - (i - b) * gamma * (q0 * beta[0] * p00 + q1 * beta[1] * p10),
@@ -140,8 +131,9 @@ class L1Node(nn_functor.functions.Node):
 
 
 if __name__ == '__main__':
-    random.seed(0)
-    numpy.random.seed(0)
+    # random.seed(0)
+    # numpy.random.seed(0)
+
 
     def f(src):
         return src[0] * src[1]
@@ -157,7 +149,7 @@ if __name__ == '__main__':
     count = 0
     report = 1000
 
-    for i in range(1000000):
+    for i in range(1000):
         random.shuffle(xy)
 
         for src in xy:

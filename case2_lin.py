@@ -126,7 +126,7 @@ class L2Para(nn_functor.functions.Learn):
         w00, w10, b0 = p
 
         return numpy.array([
-            sigmoid(w00 * a[0] + w10 * a[1] + b0),
+            w00 * a[0] + w10 * a[1] + b0,
         ]).reshape(1)
 
     def update(self, a, b, p):
@@ -148,7 +148,7 @@ class L2Para(nn_functor.functions.Learn):
         w00, w10, b0 = p
 
         beta = [
-            sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0),
+            1
         ]
 
         return (
@@ -174,7 +174,7 @@ class L2Para(nn_functor.functions.Learn):
 
         w00, w10, b0 = p
         a = a[0]
-        beta = sigmoid_derivative(w00 * a[0] + w10 * a[1] + b0)
+        beta = 1
 
         return numpy.array(
             [
