@@ -1,6 +1,7 @@
 import typing
 
 from nn_functor import error, var
+from nn_functor import graph
 
 
 class Node(object):
@@ -23,6 +24,11 @@ class Node(object):
         self.__upstream_request = None
         self._request = None
         self.reset()
+
+        self.name_scope = graph.Graph.name()
+
+    def node_name(self):
+        return f"{self.name_scope}/{self.__class__.__name__}"
 
     @property
     def params(self):
@@ -103,7 +109,6 @@ class Node(object):
                     self._upstream_request(),
                     self.params
                 )]
-
         return self._request[self._a.index(a)]
 
     def update(self):
@@ -118,6 +123,7 @@ class Node(object):
             pass
 
     def backward_chain(self):
+        self._upstream_request()
         for i in self._a:
             if i.origin:
                 i.origin.backward_chain()
