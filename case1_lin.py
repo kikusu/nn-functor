@@ -9,9 +9,11 @@ import numpy.random
 
 import nn_functor.functions
 import nn_functor.functions.error
-from nn_functor.functions.sigmoid import sigmoid_derivative, sigmoid
+from nn_functor.functions.sigmoid import sigmoid_derivative, sigmoid, sigmoid_derivative_n
+
 import nn_functor.var
 
+g_counter = 0
 
 class L1Para(nn_functor.functions.Learn):
     def implement(self, a, p):
@@ -95,6 +97,11 @@ class L1Para(nn_functor.functions.Learn):
         """
         i = self.implement(a, p)
 
+        global g_counter
+        if g_counter % 100 == 0:
+            print(g_counter, self.test_request_differential(a, b, p))
+        g_counter += 1
+
         a = a[0]
         p00, p01, p10, b00, b01, q0, q1, b1 = p
 
@@ -109,6 +116,32 @@ class L1Para(nn_functor.functions.Learn):
             a[0] - (i - b) * gamma * (q0 * beta[0] * p00 + q1 * beta[1] * p10),
             a[1] - (i - b) * gamma * (q0 * beta[0] * p01)
         ]).reshape(2),
+
+    def test_request_differential(self, a, b, p):
+        i = self.implement(a, p)
+
+        a = a[0]
+        p00, p01, p10, b00, b01, q0, q1, b1 = p
+
+        beta = [
+            sigmoid_derivative(p00 * a[0] + p10 * a[1] + b00),
+            sigmoid_derivative(p01 * a[0] + b01)
+        ]
+
+        beta2 = [
+            sigmoid_derivative_n(p00 * a[0] + p10 * a[1] + b00, 2),
+            sigmoid_derivative_n(p01 * a[0] + b01, 2)
+        ]
+
+        h = q0 * beta[0] * p00 + q1 * beta[1] * p10
+        k = q0 * beta[0] * p01
+
+        return numpy.array([
+            1 - (h * h + (i - b) * (q0 * beta2[0] * p00 * p00 + q1 * beta2[1] * p10 * p10)),
+            - (h * k + (i - b) * (q0 * beta2[0] * p00 * p01)),
+            - (h * k + (i - b) * (q0 * beta2[0] * p00 * p01)),
+            1 - (k * k + (i - b) * (q0 * beta2[0] * p01 * p01)),
+        ]).reshape(2, 2),
 
 
 class L1Node(nn_functor.functions.Node):
@@ -158,6 +191,9 @@ if __name__ == '__main__':
             v = l1(var_src)
             err = err_f(v, var_dst)
             err_f.backward_chain()
+
+            l1.request(var_src)
+
             err_f.update_chain()
 
             err_hist.append(err.data)

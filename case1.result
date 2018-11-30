@@ -1,0 +1,8 @@
+i:1000	src:Var([0.04 0.13])	true:Var([0.0052])	pred:Var([0.32769513]), max_err:[0.20749736], mean_err:[0.02981146]
+i:2000	src:Var([0.14 0.88])	true:Var([0.1232])	pred:Var([0.2668176]), max_err:[0.28140425], mean_err:[0.02859915]
+i:3000	src:Var([0.66 0.63])	true:Var([0.4158])	pred:Var([0.24312717]), max_err:[0.26565491], mean_err:[0.02717392]
+i:4000	src:Var([0.27 0.46])	true:Var([0.1242])	pred:Var([0.25445145]), max_err:[0.26598039], mean_err:[0.02463818]
+i:5000	src:Var([0.08 0.37])	true:Var([0.0296])	pred:Var([0.26213686]), max_err:[0.27684663], mean_err:[0.02892845]
+i:6000	src:Var([0.02 0.76])	true:Var([0.0152])	pred:Var([0.24905685]), max_err:[0.29203877], mean_err:[0.02711227]
+i:7000	src:Var([0.27 0.41])	true:Var([0.1107])	pred:Var([0.25082202]), max_err:[0.28319767], mean_err:[0.02855551]
+i:8000	src:Var([0.61 0.03])	true:Var([0.0183])	pred:Var([0.2520435]), max_err:[0.28421067], mean_err:[0.02638983]

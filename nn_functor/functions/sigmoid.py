@@ -33,6 +33,26 @@ def sigmoid_derivative(x):
     return (1.0 - y) * y
 
 
+def sigmoid_derivative_n(x, n):
+    """sigmoid関数の導関数
+
+    Parameters
+    ----------
+    x : numpy.array
+    n: int
+
+    Returns
+    -------
+    numpy.array
+    """
+    y = sigmoid(x)
+    z = y
+    for i in range(1, n + 1):
+        z = z * (1 - i * y)
+
+    return z
+
+
 class SigmoidFunction(ab.Para):
     """p.15"""
 
