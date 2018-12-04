@@ -26,7 +26,6 @@ class AggregateStore(object):
 
             if diff.shape == (0,):
                 diff = numpy.array(0)
-                print("aaa", diff, data_list)
 
             return {
                 "mean": numpy.mean(data_list),
